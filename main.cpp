@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Fecha.h"
+#include "Reserva.h"
 using namespace std;
 
 ostream &operator << (ostream &os, fecha f) {
@@ -9,7 +9,6 @@ ostream &operator << (ostream &os, fecha f) {
 }
 
 istream &operator >> (istream &os, fecha &f) {
-    int d,m,a;
     cout << "Dia: ";
     os >> f.dd;
     cout << "Mes: ";
@@ -22,14 +21,18 @@ istream &operator >> (istream &os, fecha &f) {
 int main()
 {
 
-    fecha f1(1200,11,23);
-    fecha f2(43,21,2);
+//    fecha f1(1200,11,23);
+//    fecha f2(43,21,2);
+//
+//    if(f1==f2)
+//        cout<<"";
+//
+//    cout<<f1;
+//    cin>>f2;
+//    cout<<f2;
 
-    if(f1==f2)
-        cout<<"";
-
-    cout<<f1;
-    cin>>f2;
-    cout<<f2;
+//reserva r1;
+disco lib1;
+lib1.muestraDatos();
 
 }

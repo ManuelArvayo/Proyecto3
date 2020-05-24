@@ -1,4 +1,8 @@
 #include "Fecha.h"
+#include "Material.h"
+#include "Libro.h"
+#include "Disco.h"
+#include "Software.h"
 #ifndef RESERVA_H_INCLUDED
 #define RESERVA_H_INCLUDED
 
@@ -36,7 +40,10 @@ reserva::reserva(int idMat, int idClie, fecha fecReser)
 
 fecha reserva::calculaFechaFinReserva(int cantDias)
 {
-
+    fecha ftem;
+    ftem = fechaReservacion;
+    ftem + cantDias;
+    return ftem;
 }
 
 

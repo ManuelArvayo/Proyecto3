@@ -30,9 +30,9 @@ private:
 
 fecha::fecha()
 {
-    aa=0;
-    mm=0;
-    dd=0;
+    aa=1;
+    mm=1;
+    dd=1;
 }
 
 fecha::fecha(int anio, int mes, int dia)
@@ -103,13 +103,6 @@ bool fecha::operator==(fecha f1)
     return false;
 }
 
-//void fecha::operator>>(fecha f1)
-//{
-//    dd=f1.dd;
-//    mm=f1.mm;
-//    aa=f1.aa;
-//}
-
 
 string fecha::nombreMes()
 {
@@ -173,6 +166,7 @@ if(mm==12)
     string mes="Dic";
     return mes;
 }
+return "ERROR";
 }
 
 #endif // FECHA_H_INCLUDED
