@@ -21,7 +21,7 @@ istream &operator >> (istream &os, fecha &f) {
 int main()
 {
 
-//    fecha f1(1200,11,23);
+//    fecha f1(1200,2,23);
 //    fecha f2(43,21,2);
 //
 //    if(f1==f2)
@@ -32,7 +32,14 @@ int main()
 //    cout<<f2;
 
 //reserva r1;
-disco lib1;
+//disco lib1;
+//lib1.muestraDatos();
+//
+//f1+100;
+//cout<<f1;
+
+software lib1(12,"Caca",54,"Fantasia");
 lib1.muestraDatos();
+
 
 }

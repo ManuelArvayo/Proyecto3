@@ -52,7 +52,32 @@ void fecha::setFecha(int anio, int mes, int dia)
 void fecha:: operator+(int dias)
 {
     dd+=dias;
+    do{
+    if(dd>30 && (mm==4 ||mm==6||mm==9||mm==11))
+    {
+        dd-=30;
+        mm+=1;
+    }
+    if(dd>31 && (mm==1 ||mm==3||mm==5||mm==7||mm==8||mm==10||mm==12))
+    {
+        dd-=31;
+        mm+=1;
+    }
+    if(dd>28 && mm==2)
+    {
+        dd-=28;
+        mm+=1;
+    }
+    }while((dd>30 && (mm==4 ||mm==6||mm==9||mm==11))||(dd>31 && (mm==1 ||mm==3||mm==5||mm==7||mm==8||mm==10||mm==12))|| (dd>28 && mm==2));
+    do{
+    if(mm>12)
+    {
+        mm-=12;
+        aa+=1;
+    }
+    }while(mm>12);
 }
+//Meses con 30 días: Abril, Junio, Septiembre y Noviembre. Meses con 31 días: Enero, Marzo, Mayo, Julio, Agosto, Octubre y Diciembre
 
 bool fecha::operator>=(fecha f1)
 {

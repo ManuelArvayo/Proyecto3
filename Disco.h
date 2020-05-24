@@ -6,6 +6,7 @@ class disco : private material
 public:
     disco();
     disco(int, string);
+    disco(int, string, int, string);
     void setDuracion(int d){duracion=d;};
     void setGenero(string g){genero=g;};
     int getDuracion(){return duracion;};
@@ -29,6 +30,13 @@ disco::disco(int duracion, string genero)
     this ->duracion=duracion;
     this->genero=genero;
 }
+
+disco::disco(int id,string Tit, int duracion, string genero) : material(id,Tit)
+{
+    this ->duracion=duracion;
+    this->genero=genero;
+}
+
 
 void disco::muestraDatos()
 {

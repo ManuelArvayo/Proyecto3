@@ -6,6 +6,7 @@ class software : private material
 public:
     software();
     software(int, string);
+    software(int, string, int, string);
     void setVersion(int v){version=v;};
     void setSO(string sO){this ->sO=sO;};
     int getVersion(){return version;};
@@ -24,6 +25,12 @@ software::software()
 }
 
 software::software(int version,string sO)
+{
+    this->version=version;
+    this->sO=sO;
+}
+
+software::software(int id,string Tit, int version,string sO) : material(id,Tit)
 {
     this->version=version;
     this->sO=sO;

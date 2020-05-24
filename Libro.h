@@ -6,6 +6,7 @@ class libro : public material
 public:
     libro();
     libro(int, string);
+    libro(int, string, int, string);
     void setNumPag(int nP){numPag=nP;};
     void setAutor(string a){autor=a;};
     int getNumPag(){return numPag;};
@@ -29,11 +30,11 @@ libro::libro(int nP, string a)
     autor=a;
 }
 
-//libro::libro(int id,string Tit, int nP, string a):material(id,Tit)
-//{
-//    numPag=nP;
-//    autor=a;
-//}
+libro::libro(int id,string Tit, int nP, string a) : material(id,Tit)
+{
+    numPag=nP;
+    autor=a;
+}
 
 void libro::muestraDatos()
 {
