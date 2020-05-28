@@ -1,7 +1,7 @@
 #ifndef SOFTWARE_H_INCLUDED
 #define SOFTWARE_H_INCLUDED
 
-class software : private material
+class software : public material
 {
 public:
     software();

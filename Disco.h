@@ -1,7 +1,7 @@
 #ifndef DISCO_H_INCLUDED
 #define DISCO_H_INCLUDED
 
-class disco : private material
+class disco : public material
 {
 public:
     disco();
