@@ -84,7 +84,7 @@ while(arReserva>>dia>>mes>>anio>>idMaterial>>idClient)
     res[contReserva]=resTemp;
     contReserva++;
 }
-
+int contReservaTemp = contReserva;
 cout<<"Ingrese A para Consultar la lista de Materiales"<<endl;
 cout<<"Ingrese B para Consultar la lista de reservaciones"<<endl;
 cout<<"Ingrese C para Consultar las reservaciones de un material dado"<<endl;
@@ -193,6 +193,8 @@ switch (clave)
         }
     case 'e':
         {
+            int contMaterialTemp;
+            bool fValido;
             cout<<"Ingrese el ID del material: "<<endl;
             cin>>idMaterial;
             //Verificacion
@@ -205,22 +207,61 @@ switch (clave)
             cout<<"Ingrese el anio: "<<endl;
             cin>>anio;
             fecha ftemp(anio,mes,dia);
-            for(int i=0;i<contReserva;i++)
-            {
-                for(int k=0; k<contMaterial;k++)
+            reserva r1(idMaterial,idClient,ftemp);
+            for(int k=0; k<contMaterial;k++)
+                if(idMaterial==mat[k]->getIdMaterial())
                 {
-                    if(idMaterial==mat[k]->getIdMaterial())
+                    contMaterialTemp =k;
+                }
+            int i=0;
+            fecha temp2= ftemp;
+            ftemp+mat[contMaterialTemp]->cantidadDiasPrestamo();
+//            do{
+                    int j=0;
+                    do
                     {
-                        if(ftemp>=res[i].getFechaReserva() && ftemp<=res[i].calculaFechaFinReserva(mat[k]->cantidadDiasPrestamo()))
-                            cout<<"MATERIAL NO DISPONIBLE";
-                        else if((ftemp+mat[k]->cantidadDiasPrestamo())>res[i].getFechaReserva() || (ftemp+mat[k]->cantidadDiasPrestamo())< res[i].calculaFechaFinReserva(mat[k]->cantidadDiasPrestamo()))
-                            cout<<"FECHA NO DISPONIBLE";
-                        else
+
+                        fecha inicio;
+                        fecha termino;
+                        inicio =res[j].getFechaReserva();
+                        termino=res[j].calculaFechaFinReserva(mat[contMaterialTemp]->cantidadDiasPrestamo());
+                        if(res[j].getIdMaterial()==mat[contMaterialTemp]->getIdMaterial())
                         {
+                        if((temp2>=inicio && temp2<=termino)||(ftemp>=inicio && ftemp<=termino))
+                            fValido=false;
+                        else
+                            fValido=true;
                         }
+                        j++;
+                    }while(fValido==false && j<contReserva);
+
+//                i++;
+//                }while(fValido==true && i<contReserva);
+            if(fValido==false)
+                cout<<"FECHA NO DISPONIBLE"<<endl;
+            if(fValido==true)
+            {
+                contReservaTemp++;
+                res[contReservaTemp]= r1;
+                cout<<"RESERVA AGREGADA AL SISTEMA:"<<endl;
+                cout<<"Reserva #"<<contReservaTemp<<endl;
+                cout<<"   Fecha de Inicio:"<<r1.getFechaReserva();
+                cout<<"   Fecha de Termino:"<<r1.calculaFechaFinReserva(mat[contMaterialTemp]->cantidadDiasPrestamo());
+                cout<<"   Nombre de Material:"<<mat[contMaterialTemp]->getTitulo()<<endl;
+                cout<<"   Id del Cliente:"<<r1.getIdCliente()<<endl;
+
+
             }
         }
+
 }
 
+//
+//                            {cout<<"MATERIAL NO DISPONIBLE"<<endl;}
+//                    ftemp+mat[contMaterialTemp]->cantidadDiasPrestamo();
+//
+//
+//                        else
+//                        {
 
 }
