@@ -226,20 +226,6 @@ int main()
                         }
 
                 }
-//                if(ftemp==res[i].getFechaReserva())     //Buscar que reservas coinciden con la fecha dada por el usuario
-//                {
-//                    cout<<"Reserva #"<<x<<" del material #"<<idMaterial<<":"<<endl;
-//                    cout<<"   Fecha de Inicio:"<<res[i].getFechaReserva();
-//                    for(int k=0; k<contMaterial; k++)
-//                    {
-//                        if(res[i].getIdMaterial()==mat[k]->getIdMaterial())         //Buscar el Material que se esta reservando
-//                        {
-//                            cout<<"   Fecha de Termino:"<<res[i].calculaFechaFinReserva(mat[k]->cantidadDiasPrestamo());
-//                            cout<<"   Nombre de Material:"<<mat[k]->getTitulo()<<endl;
-//                        }
-//                    }
-//                    cout<<"   Id del Cliente:"<<res[i].getIdCliente()<<endl;
-//                    cout<<endl;
                     x++;
                 }
 
@@ -364,6 +350,6 @@ int main()
         }
 
     }
-    while(resp=='s');
+    while(resp=='s'&& clave!='f');
 
 }
