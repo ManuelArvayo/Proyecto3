@@ -14,14 +14,18 @@ ostream &operator << (ostream &os, fecha f)             //Sobrecarga de operador
 
 istream &operator >> (istream &os, fecha &f)            //Sobrecarga de operador >>
 {
-    do{
-    cout << "Dia: ";
-    os >> f.dd;
-    }while(f.dd>31 || f.dd<0);
-    do{
-    cout << "Mes: ";
-    os >> f.mm;
-    }while(f.mm>12||(f.dd>30 && (f.mm==4 ||f.mm==6||f.mm==9||f.mm==11))||(f.dd>31 && (f.mm==1 ||f.mm==3||f.mm==5||f.mm==7||f.mm==8||f.mm==10||f.mm==12))|| (f.dd>28 && f.mm==2));
+    do
+    {
+        cout << "Dia: ";
+        os >> f.dd;
+    }
+    while(f.dd>31 || f.dd<0);
+    do
+    {
+        cout << "Mes: ";
+        os >> f.mm;
+    }
+    while(f.mm>12||(f.dd>30 && (f.mm==4 ||f.mm==6||f.mm==9||f.mm==11))||(f.dd>31 && (f.mm==1 ||f.mm==3||f.mm==5||f.mm==7||f.mm==8||f.mm==10||f.mm==12))|| (f.dd>28 && f.mm==2));
     cout << "Anio: ";
     os >> f.aa;
     return os;
@@ -120,6 +124,7 @@ int main()
             cout<<"---------------------------------------------------------------"<<endl;
             cout<<endl<<"Desea Realizar otra operacion?"<<endl;                    //Pregunta al usuario para saber si terminar el ciclo
             cin>>resp;
+            resp=tolower(resp);
 
             break;
         }
@@ -146,6 +151,7 @@ int main()
             cout<<"---------------------------------------------------------------"<<endl;
             cout<<endl<<"Desea Realizar otra operacion?"<<endl;
             cin>>resp;
+            resp=tolower(resp);
 
             break;
 
@@ -198,6 +204,7 @@ int main()
 
             cout<<endl<<"Desea Realizar otra operacion?"<<endl;
             cin>>resp;
+            resp=tolower(resp);
 
             break;
 
@@ -212,7 +219,7 @@ int main()
 
             for(int i=0; i<contReserva; i++)
             {
-                for(int k=0;k<contMaterial;k++)
+                for(int k=0; k<contMaterial; k++)
                 {
                     if(res[i].getIdMaterial()==mat[k]->getIdMaterial())
                         if(ftemp>=res[i].getFechaReserva() && ftemp<=res[i].calculaFechaFinReserva(mat[k]->cantidadDiasPrestamo()))
@@ -226,13 +233,14 @@ int main()
                         }
 
                 }
-                    x++;
-                }
+                x++;
+            }
 
             cout<<"---------------------------------------------------------------"<<endl;
 
             cout<<endl<<"Desea Realizar otra operacion?"<<endl;
             cin>>resp;
+            resp=tolower(resp);
 
 
             break;
@@ -272,7 +280,7 @@ int main()
                 }
             cout<<"Ingrese el Id del cliente: "<<endl;
             cin>>idClient;
-                fecha ftemp(anio,mes,dia);
+            fecha ftemp(anio,mes,dia);
             cin>>ftemp;                 //Fecha de la nueva reserva
             reserva Temporal(idMaterial,idClient,ftemp);        //Nueva reserva
             reservaN = Temporal;
@@ -318,6 +326,8 @@ int main()
             }
             cout<<endl<<"Desea Realizar otra operacion?"<<endl;
             cin>>resp;
+            resp=tolower(resp);
+
             break;
 
         }
