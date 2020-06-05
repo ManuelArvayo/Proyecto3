@@ -14,10 +14,14 @@ ostream &operator << (ostream &os, fecha f)             //Sobrecarga de operador
 
 istream &operator >> (istream &os, fecha &f)            //Sobrecarga de operador >>
 {
+    do{
     cout << "Dia: ";
     os >> f.dd;
+    }while(f.dd>31 || f.dd<0);
+    do{
     cout << "Mes: ";
     os >> f.mm;
+    }while(f.mm>12||(f.dd>30 && (f.mm==4 ||f.mm==6||f.mm==9||f.mm==11))||(f.dd>31 && (f.mm==1 ||f.mm==3||f.mm==5||f.mm==7||f.mm==8||f.mm==10||f.mm==12))|| (f.dd>28 && f.mm==2));
     cout << "Anio: ";
     os >> f.aa;
     return os;
@@ -89,7 +93,6 @@ int main()
         res[contReserva]=resTemp;             //Inclusion de la reserva en el arreglo
         contReserva++;                              //contador del numero de reservas
     }
-    int contReservaTemp = contReserva-1; // Se guarda el numero de reservas para proxima modificacion
     do
     {
         cout<<"Ingrese A para Consultar la lista de Materiales"<<endl;
@@ -130,7 +133,7 @@ int main()
                 cout<<"   Fecha de Inicio:"<<res[i].getFechaReserva();
                 for(int k=0; k<contMaterial; k++)
                 {
-                    if(res[i].getIdMaterial()==mat[k]->getIdMaterial())             //Validacion de que material se reservo en cada reserva
+                    if(res[i].getIdMaterial()== mat[k]->getIdMaterial())             //Validacion de que material se reservo en cada reserva
                     {
                         cout<<"   Fecha de Termino:"<<res[i].calculaFechaFinReserva(mat[k]->cantidadDiasPrestamo());
                         cout<<"   Nombre de Material:"<<mat[k]->getTitulo()<<endl;
@@ -149,16 +152,25 @@ int main()
         }
         case 'c':
         {
-            cout<<"Ingrese el ID del material: "<<endl;
-            cin>>idMaterial;
-
-
-
-
-            //FALTA VALIDACION
-
-
-
+            bool verif;
+            do
+            {
+                cout<<"Ingrese el ID del material: "<<endl;
+                cin>>idMaterial;
+                int i=0;
+                do
+                {
+                    if(idMaterial==mat[i]->getIdMaterial())             //Verificacion de la id del material
+                        verif=true;
+                    else
+                        verif=false;
+                    i++;
+                }
+                while(verif==false && i<contMaterial);
+                if(verif==false)
+                    cout<<"ID NO RECONOCIDA, INTENTELO DE NUEVO:"<<endl;
+            }
+            while(verif==false);
 
             cout<<endl;
             int x=1;        //numero de reservas encontradas con ese iD
@@ -193,35 +205,44 @@ int main()
 
         case 'd':
         {
-            cout<<"Ingrese el dia: "<<endl;
-            cin>>dia;
-            cout<<"Ingrese el mes: "<<endl;     //Ingreso de datos de la fecha a buscar
-            cin>>mes;
-            cout<<"Ingrese el anio: "<<endl;
-            cin>>anio;
-            fecha ftemp(anio,mes,dia);
+            fecha ftemp(anio,mes,dia);     //Ingreso de datos de la fecha a buscar
+            cin>>ftemp;
             int x=1;                            //Cantidad de reservas encontradas en esa fecha
             cout<<"---------------------------------------------------------------"<<endl;
 
             for(int i=0; i<contReserva; i++)
             {
-                if(ftemp==res[i].getFechaReserva())     //Buscar que reservas coinciden con la fecha dada por el usuario
+                for(int k=0;k<contMaterial;k++)
                 {
-                    cout<<"Reserva #"<<x<<" del material #"<<idMaterial<<":"<<endl;
-                    cout<<"   Fecha de Inicio:"<<res[i].getFechaReserva();
-                    for(int k=0; k<contMaterial; k++)
-                    {
-                        if(res[i].getIdMaterial()==mat[k]->getIdMaterial())         //Buscar el Material que se esta reservando
+                    if(res[i].getIdMaterial()==mat[k]->getIdMaterial())
+                        if(ftemp>=res[i].getFechaReserva() && ftemp<=res[i].calculaFechaFinReserva(mat[k]->cantidadDiasPrestamo()))
                         {
+                            cout<<"Reserva #"<<x<<"   Material #"<<res[i].getIdMaterial()<<":"<<endl;
+                            cout<<"   Fecha de Inicio:"<<res[i].getFechaReserva();
                             cout<<"   Fecha de Termino:"<<res[i].calculaFechaFinReserva(mat[k]->cantidadDiasPrestamo());
                             cout<<"   Nombre de Material:"<<mat[k]->getTitulo()<<endl;
+                            cout<<"   Id del Cliente:"<<res[i].getIdCliente()<<endl;
+                            cout<<endl;
                         }
-                    }
-                    cout<<"   Id del Cliente:"<<res[i].getIdCliente()<<endl;
-                    cout<<endl;
+
+                }
+//                if(ftemp==res[i].getFechaReserva())     //Buscar que reservas coinciden con la fecha dada por el usuario
+//                {
+//                    cout<<"Reserva #"<<x<<" del material #"<<idMaterial<<":"<<endl;
+//                    cout<<"   Fecha de Inicio:"<<res[i].getFechaReserva();
+//                    for(int k=0; k<contMaterial; k++)
+//                    {
+//                        if(res[i].getIdMaterial()==mat[k]->getIdMaterial())         //Buscar el Material que se esta reservando
+//                        {
+//                            cout<<"   Fecha de Termino:"<<res[i].calculaFechaFinReserva(mat[k]->cantidadDiasPrestamo());
+//                            cout<<"   Nombre de Material:"<<mat[k]->getTitulo()<<endl;
+//                        }
+//                    }
+//                    cout<<"   Id del Cliente:"<<res[i].getIdCliente()<<endl;
+//                    cout<<endl;
                     x++;
                 }
-            }
+
             cout<<"---------------------------------------------------------------"<<endl;
 
             cout<<endl<<"Desea Realizar otra operacion?"<<endl;
@@ -233,18 +254,30 @@ int main()
         }
         case 'e':
         {
+            reserva reservaN;
             int contMaterialTemp;           // guarda la el indice del materiales para usarlo despues
             bool fValido=false;             // Booleano que verifica si la fecha de la reserva ingresada es valida
-            bool verif= false;              // Booleano que verifica si ya hay reservas del material
-            int reservatemp;                //
-            cout<<"Ingrese el ID del material: "<<endl;
-            cin>>idMaterial;
-
-
-
-            //FALTA VERIFICACION QUE SI LA ID EXISTE
-
-
+            bool verif= false;
+            bool verifmaterial;              // Booleano que verifica si ya hay reservas del material
+            int reservatemp;
+            do             //
+            {
+                cout<<"Ingrese el ID del material: "<<endl;
+                cin>>idMaterial;
+                int i=0;
+                do
+                {
+                    if(idMaterial==mat[i]->getIdMaterial())             //Verificacion de la id del material
+                        verifmaterial=true;
+                    else
+                        verifmaterial=false;
+                    i++;
+                }
+                while(verifmaterial==false && i<contMaterial);
+                if(verifmaterial==false)
+                    cout<<"ID NO RECONOCIDA, INTENTELO DE NUEVO:"<<endl;
+            }
+            while(verifmaterial==false);
 
             for(int k=0; k<contMaterial; k++)            //Verificacion de que material se esta reservando
                 if(idMaterial==mat[k]->getIdMaterial())
@@ -253,15 +286,10 @@ int main()
                 }
             cout<<"Ingrese el Id del cliente: "<<endl;
             cin>>idClient;
-            cout<<"Ingrese el dia: "<<endl;
-            cin>>dia;
-            cout<<"Ingrese el mes: "<<endl;             //Ingresar datos de la reserva a realizar
-            cin>>mes;
-            cout<<"Ingrese el anio: "<<endl;
-            cin>>anio;
-            fecha ftemp(anio,mes,dia);                  //Fecha de la nueva reserva
-            reserva reservaN(idMaterial,idClient,ftemp);        //Nueva reserva
-
+                fecha ftemp(anio,mes,dia);
+            cin>>ftemp;                 //Fecha de la nueva reserva
+            reserva Temporal(idMaterial,idClient,ftemp);        //Nueva reserva
+            reservaN = Temporal;
             for(int i=0; i<contReserva; i++)
             {
                 if(res[i].getIdMaterial()==mat[contMaterialTemp]->getIdMaterial())      //Buscar si ya hay reservas con ese material dado
@@ -290,20 +318,16 @@ int main()
                 cout<<"FECHA NO DISPONIBLE"<<endl; //Si la fecha no es valida, se imprime
             if(fValido==true)
             {
-                contReservaTemp++;      //Si la fecha es valida, se aumenta el numero de reservas
-                res[contReservaTemp]= reservaN;         //Se agrega la nueva reserva al arreglo
-                cout<<"RESERVA AGREGADA AL SISTEMA:"<<endl;
-                cout<<"Reserva #"<<contReservaTemp<<endl;
+
+                cout<<"-------------RESERVACION AGREGADA AL SISTEMA-----------"<<endl;
+                cout<<"Reservacion #"<<contReserva+1<<endl;
                 cout<<"   Fecha de Inicio:"<<reservaN.getFechaReserva();            //Se imprimen los datos para que el usuario cheque si estan correctos
                 cout<<"   Fecha de Termino:"<<reservaN.calculaFechaFinReserva(mat[contMaterialTemp]->cantidadDiasPrestamo());
                 cout<<"   Nombre de Material:"<<mat[contMaterialTemp]->getTitulo()<<endl;
                 cout<<"   Id del Cliente:"<<reservaN.getIdCliente()<<endl;
-
-
-
-                //FALTA PREGUNTAR SI LOS DATOS ESTAN BIEN, HACER UN DO WHILE.
-
-
+                cout<<"---------------------------------------------------"<<endl;
+                res[contReserva]= reservaN;         //Se agrega la nueva reserva al arreglo
+                contReserva++;      //Si la fecha es valida, se aumenta el numero de reservas
 
             }
             cout<<endl<<"Desea Realizar otra operacion?"<<endl;
@@ -315,7 +339,7 @@ int main()
         {
             ofstream arSalida;
             arSalida.open("Reserva.txt");       //Abrir el archivo de salida con el mismo nombre para que se reescriba el archivo de reservas
-            for(int i=0; i<=contReservaTemp; i++)
+            for(int i=0; i<=contReserva-1; i++)
             {
                 arSalida<<res[i].getFechaReserva().getDia()<<" ";
                 arSalida<<res[i].getFechaReserva().getMes()<<" ";       //Exportar los datos del arreglo de reservas
@@ -329,7 +353,7 @@ int main()
         {
             ofstream arSalida;
             arSalida.open("Reserva.txt");
-            for(int i=0; i<=contReservaTemp; i++)
+            for(int i=0; i<=contReserva-1; i++)
             {
                 arSalida<<res[i].getFechaReserva().getDia()<<" ";
                 arSalida<<res[i].getFechaReserva().getMes()<<" ";       //Hace lo mismo que el caso 'f' pero sin necesidad de
